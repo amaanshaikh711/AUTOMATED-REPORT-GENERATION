@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description"
+        content="Insightify - Professional Data Analysis & Report Generation. Transform your CSV data into actionable insights.">
+    <meta name="theme-color" content="#3498db">
+    <title>Insightify - Professional Data Analysis & Report Generation</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">📊</span>
+                <span class="logo-text">Insightify</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#how-to-use" class="nav-link">How to Use</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Professional Data Analysis & Report Generation</h1>
+            <p class="hero-subtitle">Transform Your Data Into Actionable Insights with Insightify</p>
+            <p class="hero-description">Advanced analytics platform designed for data scientists, analysts, and business
+                professionals</p>
+            <button class="cta-button" onclick="document.getElementById('app').scrollIntoView({behavior: 'smooth'})">Get
+                Started</button>
+        </div>
+        <div class="hero-background"></div>
+    </section>
+
+    <!-- Main Application Section -->
+    <section id="app" class="app-section">
+        <div class="container">
+            <div class="app-header">
+                <h2>Data Analysis Dashboard</h2>
+                <p>Upload your CSV file and generate comprehensive reports instantly</p>
+            </div>
+
+            <div class="dashboard-layout">
+                <!-- Top Section: File Upload -->
+                <div class="upload-section">
+                    <div class="card upload-card">
+                        <div class="card-body">
+                            <div class="file-upload-area" id="fileUploadArea">
+                                <input type="file" id="csvFile" accept=".csv" style="display: none;">
+                                <div class="upload-content">
+                                    <div class="upload-icon">📤</div>
+                                    <div class="upload-details">
+                                        <p class="upload-text">Click to select or drag & drop your CSV file</p>
+                                        <p class="upload-hint">Supports files up to 500MB</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="fileInfo" class="file-info" style="display: none;">
+                                <div class="file-status">
+                                    <span class="status-icon">✓</span>
+                                    <span id="fileName">file.csv</span>
+                                </div>
+                                <button class="btn-secondary btn-sm" onclick="resetFile()">Change File</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-grid">
+                    <!-- Left Column: Configuration -->
+                    <div class="config-column">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>⚙️ Configuration</h3>
+                                <p>Customize your analysis settings</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="reportTitle">Report Title</label>
+                                    <input type="text" id="reportTitle" placeholder="Enter report title"
+                                        value="Professional Data Analysis Report">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reportSubtitle">Report Subtitle</label>
+                                    <input type="text" id="reportSubtitle" placeholder="Enter report subtitle"
+                                        value="Comprehensive Analysis & Insights">
+                                </div>
+                                <div class="form-group checkbox-group">
+                                    <label>
+                                        <input type="checkbox" id="includeCharts" checked>
+                                        Include Visualizations
+                                    </label>
+                                </div>
+                                <div class="form-group checkbox-group">
+                                    <label>
+                                        <input type="checkbox" id="include3D" checked>
+                                        Include 3D Charts
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card info-card">
+                            <div class="card-header">
+                                <h3>ℹ️ Quick Tips</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="tips-list">
+                                    <li>Ensure CSV has headers in first row</li>
+                                    <li>Analysis runs in background</li>
+                                    <li>Reports are generated in PDF format</li>
+                                    <li>All data is processed locally</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Analysis & Results -->
+                    <div class="analysis-column">
+                        <!-- Stats Row -->
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="stat-label">Rows</div>
+                                <div class="stat-value" id="statRows">-</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Columns</div>
+                                <div class="stat-value" id="statColumns">-</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Size</div>
+                                <div class="stat-value" id="statSize">-</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Status</div>
+                                <div class="stat-value" id="statStatus">-</div>
+                            </div>
+                        </div>
+                        <!-- Analysis Control & Progress -->
+                        <div class="card control-card">
+                            <div class="card-header">
+                                <h3>🚀 Analysis Control</h3>
+                            </div>
+                            <div class="card-body">
+                                <!-- Primary Action -->
+                                <button class="btn-primary btn-lg" id="generateBtn" onclick="generateReport()" disabled>
+                                    Generate Professional Report
+                                </button>
+
+                                <!-- Progress Section -->
+                                <div class="progress-section">
+                                    <div class="progress-container">
+                                        <div class="progress-bar-wrapper">
+                                            <div class="progress-bar" id="progressBar"></div>
+                                        </div>
+                                        <div class="progress-text">
+                                            <span id="progressPercentage">0%</span>
+                                        </div>
+                                    </div>
+                                    <div class="status-message" id="statusMessage">
+                                        Ready to generate report
+                                    </div>
+                                </div>
+
+                                <!-- Result Actions -->
+                                <div class="result-actions">
+                                    <button class="btn-secondary" id="openBtn" onclick="openReport()" disabled>
+                                        📂 Open Report
+                                    </button>
+                                    <button class="btn-secondary" id="downloadBtn" onclick="downloadReport()" disabled>
+                                        ⬇️ Download PDF
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Reports -->
+                        <div class="card recent-card">
+                            <div class="card-header">
+                                <h3>📋 Recent Reports</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="recentReports" class="recent-reports-list">
+                                    <p class="empty-message">No reports generated yet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Comprehensive Analysis</h3>
+                    <p>Analyze sales patterns, customer segments, regional performance, and more with advanced
+                        statistical methods.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Professional Visualizations</h3>
+                    <p>Generate beautiful charts, graphs, and 3D visualizations that make data insights easy to
+                        understand.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3>PDF Reports</h3>
+                    <p>Create professional, branded PDF reports with executive summaries, detailed analysis, and
+                        recommendations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Processing</h3>
+                    <p>Handle large datasets efficiently with optimized algorithms and background processing.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Actionable Insights</h3>
+                    <p>Get key findings and recommendations to drive business decisions and strategy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Data Privacy</h3>
+                    <p>All data is processed locally on your machine. No data is sent to external servers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section id="how-to-use" class="how-to-use-section">
+        <div class="container">
+            <h2 class="section-title">How to Use Insightify</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Upload Your Data</h3>
+                    <p>Select a CSV file containing your data. The file should have headers in the first row and can
+                        contain any number of rows and columns.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Configure Settings</h3>
+                    <p>Customize your report title, subtitle, and choose which visualizations to include in your
+                        analysis.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Generate Report</h3>
+                    <p>Click the "Generate Report" button to start the analysis. The process runs in the background and
+                        you can monitor progress.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Review Results</h3>
+                    <p>Once complete, open the generated PDF report to view comprehensive analysis, visualizations, and
+                        recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="use-cases-section">
+        <div class="container">
+            <h2 class="section-title">Use Cases & Benefits</h2>
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <h3>📊 For Data Analysts</h3>
+                    <ul>
+                        <li>Quickly analyze large datasets</li>
+                        <li>Generate professional reports for stakeholders</li>
+                        <li>Identify trends and patterns</li>
+                        <li>Create data-driven recommendations</li>
+                        <li>Save time on manual analysis</li>
+                    </ul>
+                </div>
+                <div class="use-case-card">
+                    <h3>🔬 For Data Scientists</h3>
+                    <ul>
+                        <li>Exploratory data analysis</li>
+                        <li>Statistical analysis and insights</li>
+                        <li>Visualization of complex data</li>
+                        <li>Baseline for advanced modeling</li>
+                        <li>Documentation and reporting</li>
+                    </ul>
+                </div>
+                <div class="use-case-card">
+                    <h3>💼 For Business Professionals</h3>
+                    <ul>
+                        <li>Understand business metrics</li>
+                        <li>Make informed decisions</li>
+                        <li>Present data to executives</li>
+                        <li>Track performance trends</li>
+                        <li>Identify growth opportunities</li>
+                    </ul>
+                </div>
+                <!-- <div class="use-case-card">
+                    <h3>🎓 For Researchers</h3>
+                    <ul>
+                        <li>Analyze research data</li>
+                        <li>Generate publication-ready reports</li>
+                        <li>Statistical validation</li>
+                        <li>Comparative analysis</li>
+                        <li>Documentation of findings</li>
+                    </ul>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About Insightify</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Professional Data Analysis Platform</h3>
+                    <p>Insightify is a cutting-edge data analysis and report generation platform designed to empower
+                        data professionals, business analysts, and researchers with powerful tools to transform raw data
+                        into actionable insights.</p>
+
+                    <h4>Our Mission</h4>
+                    <p>To democratize data analysis by providing an intuitive, professional-grade platform that makes
+                        advanced analytics accessible to everyone, regardless of technical expertise.</p>
+
+                    <h4>Key Capabilities</h4>
+                    <ul class="about-list">
+                        <li><strong>Advanced Analytics:</strong> Comprehensive statistical analysis including sales
+                            patterns, customer segmentation, regional performance, and temporal trends</li>
+                        <li><strong>Professional Visualizations:</strong> Generate 10+ types of charts and graphs
+                            including 3D visualizations for complex data relationships</li>
+                        <li><strong>Automated Reporting:</strong> Create branded PDF reports with executive summaries,
+                            detailed analysis, and actionable recommendations</li>
+                        <li><strong>Scalability:</strong> Handle datasets from thousands to millions of rows with
+                            optimized performance</li>
+                        <li><strong>Data Privacy:</strong> All processing happens locally - your data never leaves your
+                            machine</li>
+                        <li><strong>User-Friendly Interface:</strong> Intuitive design that requires no technical
+                            knowledge to operate</li>
+                    </ul>
+
+                    <h4>Technology Stack</h4>
+                    <p>Built with Python, Pandas, Matplotlib, and ReportLab for robust data processing and professional
+                        report generation.</p>
+
+                    <h4>Why Choose Insightify?</h4>
+                    <ul class="about-list">
+                        <li>✓ Save hours on manual data analysis</li>
+                        <li>✓ Generate professional reports instantly</li>
+                        <li>✓ Make data-driven decisions with confidence</li>
+                        <li>✓ Scalable solution for any dataset size</li>
+                        <li>✓ Secure local processing</li>
+                        <li>✓ Continuous updates and improvements</li>
+                    </ul>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-desc">Chart Types</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">1M+</div>
+                        <div class="stat-desc">Rows Supported</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-desc">Local Processing</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-desc">Possibilities</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <p>Have questions or feedback? We'd love to hear from you!</p>
+                    <div class="contact-details">
+                        <p><strong>Email:</strong> info@insightify.com</p>
+                        <p><strong>Support:</strong> support@insightify.com</p>
+                        <p><strong>Website:</strong> www.insightify.com</p>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form onsubmit="handleContactForm(event)">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Insightify</h4>
+                    <p>Professional Data Analysis & Report Generation Platform</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Insightify. All rights reserved. | Created by Aman Shaikh</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
