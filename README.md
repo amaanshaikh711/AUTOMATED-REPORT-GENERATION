@@ -1,5 +1,5 @@
 # 📊 Insightify - Professional Data Analysis & Report Generation  
-**Task 3 – CODTECH Internship | Dynamic Report Generation & Data Visualization**
+**Task 3 – CODTECH Internship | Automated Report Generation**
 
 ---
 
