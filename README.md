@@ -235,19 +235,6 @@ Insightify is fully responsive and optimized for:
 
 ---
 
-## 📸 Screenshots
-
-### Dashboard
-![Dashboard](./screenshots/dashboard.png)
-
-### Report Generation
-![Report Generation](./screenshots/generation.png)
-
-### PDF Report
-![PDF Report](./screenshots/report.png)
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
